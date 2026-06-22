@@ -3,10 +3,10 @@ import MovieCard from './MovieCard'
 import axios from 'axios'
 import Pagination from './Pagination'
 
-function Movies() {
+function Movies({movieObj,addMovies,watchlist,removeMovies}) {
 
   const [movies,setMovies] = useState([])
-  const [pageNo,setpageNo] =useState(5)
+  const [pageNo,setpageNo] =useState(1)
 
   function next(){
     setpageNo(pageNo+1);
@@ -34,7 +34,7 @@ function Movies() {
         <div className='flex flex-row gap-3 flex-wrap justify-around my-3 gap-8' >
            
           {movies.map((movieObj)=>{
-                 return <MovieCard poster_path={movieObj.poster_path} name={movieObj.original_title} />
+                 return <MovieCard key={movieObj.id} watchlist={watchlist} movieObj={movieObj} removeMovies={removeMovies} addMovies={addMovies} poster_path={movieObj.poster_path} name={movieObj.title} />
            })}
            
        

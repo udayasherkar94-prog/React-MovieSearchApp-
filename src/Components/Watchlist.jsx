@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-function Watchlist() {
+function Watchlist({watchlist,removeMovies}) {
+
+    let [search,setSearch] = useState('');
+
+    function watchlistSearch(e){
+        // console.log(e.target.value);
+        
+       setSearch(e.target.value)
+    }
+
   return (
     <>
     
@@ -13,7 +22,7 @@ function Watchlist() {
     </div>
 
     <div className='flex justify-center my-6'>
-        <input className='rounded-l h-[3rem] w-[18rem] bg-gray-200 outline-none px-4' type='text' placeholder='Search for Movies'/>
+        <input onChange={watchlistSearch} value={search} className='rounded-l h-[3rem] w-[18rem] bg-gray-200 outline-none px-4' type='text' placeholder='Search for Movies'/>
     </div>
     <div className='overflow-hiddden rounded-xl border border-gray-300 m-8'>
         <table className='w-full text-gray-500 text-center '>
@@ -26,45 +35,28 @@ function Watchlist() {
                 </tr>
            </thead>
            <tbody>
-               <tr className='border-b'>
+
+
+            {watchlist.filter((movieObj)=>{
+                return movieObj.title.toLowerCase().includes(search.toLowerCase())
+            }).map((movieObj)=>{
+              return    <tr className='border-b'>
                   <td className='flex items-center px-6 py-4' >
-                      <img className='h-[6rem] w-[8rem]' src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfMnlaLoZt7pcqK8Ge-NgntnDJxaqC-JUfsqCkenq_w&s=10`} /> 
-                      <div className='mx-8'>Joker</div>
+                      <img className='h-[6rem] w-[8rem]' src={`https://image.tmdb.org/t/p/original/${movieObj.poster_path})`} />
+ 
+                      <div className='mx-8'>{movieObj.title}</div>
                   </td>
 
-                  <td>8.5</td>
-                  <td>9</td>
-                  <td>Drama</td>
-                  <td className='text-red-500'> Delete</td>
+                  <td>{movieObj.vote_average}</td>
+                  <td>{movieObj.popularity}</td>
+                  <td>{movieObj.genre_ids}</td>
+                  <td onClick={()=> removeMovies(movieObj)} className='text-red-500'> Delete</td>
 
                </tr>
 
 
-               <tr className='border-b'>
-                  <td className='flex items-center px-6 py-4' >
-                      <img className='h-[6rem] w-[8rem]' src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfMnlaLoZt7pcqK8Ge-NgntnDJxaqC-JUfsqCkenq_w&s=10`} /> 
-                      <div className='mx-8'>Joker</div>
-                  </td>
-
-                  <td>8.5</td>
-                  <td>9</td>
-                  <td>Drama</td>
-                  <td className='text-red-500'> Delete</td>
-
-               </tr>
-
-               <tr className='border-b'>
-                  <td className='flex items-center px-6 py-4' >
-                      <img className='h-[6rem] w-[8rem]' src={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVfMnlaLoZt7pcqK8Ge-NgntnDJxaqC-JUfsqCkenq_w&s=10`} /> 
-                      <div className='mx-8'>Joker</div>
-                  </td>
-
-                  <td>8.5</td>
-                  <td>9</td>
-                  <td>Drama</td>
-                  <td className='text-red-500'> Delete</td>
-
-               </tr>
+            })}
+            
            </tbody>
         </table>
     </div>
